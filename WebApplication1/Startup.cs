@@ -34,15 +34,13 @@ namespace WebApplication1
             {
                 endpoints.MapPost("/NotificationService", async context =>
                 {
-                    var protocolUri = "ms-windows-store://pdp/?productId=8D6KGWXN6DF8";
-
                     await context.Response.WriteAsync("Hello World!");
                     new ToastContentBuilder()
-                    .AddArgument("action", "viewConversation")
-                    .AddArgument("conversationId", 9813)
-                    .AddText("Hello! This is working!!")
-                    .AddText("Check this out, The Enchantments in Washington!")
-                    .SetProtocolActivation(new Uri(protocolUri))
+                    //.AddArgument("action", "viewConversation")
+                    //.AddArgument("conversationId", 9813)
+                    .AddText(context.Request.Form["notificationMessage"])
+                    .AddText("Click to see options to watch")
+                    .SetProtocolActivation(new Uri(context.Request.Form["deepLink"]))
                     .Show(toast =>
                {
                    toast.ExpirationTime = DateTime.Now.AddMinutes(1);
